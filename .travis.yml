@@ -1,0 +1,25 @@
+language: generic
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t aemdock/react-test -f ./client/Dockerfile.dev ./client
+
+sript:
+  - docker run -e CI=true aemdock/react-test npm test --  --coverrage
+  
+after_success:
+  -docker build -t aemdock/multi-client ./client
+  -docker build -t aemdock/multi-nginx ./nginx
+  -docker build -t aemdock/multi-server ./server
+  -docker build -t aemdock/multi-worker ./worker
+
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" -- password-stndin
+  # Take those images and push them to docker hub
+  - docker push aemdock/multi-client
+  - docker push aemdock/multi-nginx
+  - docker push aemdock/multi-server
+  - docker push aemdock/multi-worker
