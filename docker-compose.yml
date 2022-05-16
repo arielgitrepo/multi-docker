@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./server
     volumes:
-      - /myspace/node_modules
+      - /myspace/app/node_modules
       - ./server:/app
     environment:
       - REDIS_HOST=redis
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./client
     volumes:
-      - /myspace/node_modules
+      - /myspace/app/node_modules
       - ./client:/app
     environment:
       - REDIS_HOST=redis
@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./worker
     volumes:
-      - /myspace/node_modules
+      - /myspace/app/node_modules
       - ./worker:/app
     environment:
       - REDIS_HOST=redis
